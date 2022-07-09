@@ -1,0 +1,12 @@
+# gradle
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# intellij
+.gradle/
+.idea/
+out/
+build/
+generated/
+.envrc
+.DS_Store
