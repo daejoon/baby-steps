@@ -1,3 +1,26 @@
-.idea/
-*.iml
+# maven
+target/
+!**/.mvn/wrapper/maven-wrapper.jar
+!**/.mvn/wrapper/maven-wrapper.properties
+
+# gradle
+build/
+.gradle/
+!**/gradle/wrapper/gradle-wrapper.jar
+!**/gradle/wrapper/gradle-wrapper.properties
+
+# annotation processor
+generated/
+# node
+node_modules/
+
+# mac
 .DS_Store
+
+# intellij
+.idea/
+out/
+*.iml
+
+# local
+.envrc
