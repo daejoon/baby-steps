@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    active: local
+#    include:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfiguration
+  config:
+    import: classpath:import1.yml
+
+msg: default
