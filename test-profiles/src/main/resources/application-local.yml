@@ -1,0 +1,7 @@
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfiguration
+  config:
+    import: classpath:import2.yml
+
+msg: local

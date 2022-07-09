@@ -1,0 +1,19 @@
+spring.config.activate.on-profile: local
+
+msg: import3 local
+---
+spring.config.activate.on-profile: dev
+
+msg: import3 dev
+---
+spring.config.activate.on-profile: stg
+
+msg: import3 stg
+---
+spring.config.activate.on-profile: prd
+
+msg: import3 prd
+---
+spring.config.activate.on-profile: test
+
+msg: import3 test
