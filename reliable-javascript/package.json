@@ -1,0 +1,20 @@
+{
+  "name": "reliable-javascript",
+  "version": "1.0.0",
+  "description": "",
+  "author": "kkode1911@gmail.com",
+  "license": "ISC",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "npm ./src/index.js",
+    "test": "karma start"
+  },
+  "dependencies": {
+    "karma-jasmine": "^2.0.1"
+  },
+  "devDependencies": {
+    "jasmine-core": "^3.4.0",
+    "karma": "^6.3.14",
+    "karma-chrome-launcher": "^2.2.0"
+  }
+}
