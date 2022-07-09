@@ -1,0 +1,38 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.22.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+		maven { url "http://repo.spring.io/plugins-release" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.ddoong'
+sourceCompatibility = '1.8'
+
+war {
+	baseName = 'springboot-with-jsp'
+	version = '1.0.0'
+	webAppDirName = 'src/main/webapp'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile 'org.springframework.boot:spring-boot-starter-web'
+	compile 'org.springframework.boot:spring-boot-starter-tomcat'
+	compile 'javax.servlet:jstl'
+	compile 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	testCompile 'org.springframework.boot:spring-boot-starter-test'
+}
