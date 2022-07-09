@@ -1,26 +1,27 @@
 # maven
-target/
+**/target/
 !**/.mvn/wrapper/maven-wrapper.jar
 !**/.mvn/wrapper/maven-wrapper.properties
 
 # gradle
-build/
-.gradle/
+**/build/
+**/.gradle/
 !**/gradle/wrapper/gradle-wrapper.jar
 !**/gradle/wrapper/gradle-wrapper.properties
 
 # annotation processor
-generated/
+**/generated/
 # node
-node_modules/
+**/node_modules/
 
 # mac
 .DS_Store
 
 # intellij
-.idea/
-out/
+**/.idea/
+**/out/
 *.iml
 
 # local
 .envrc
+**/env/mysql/data/
