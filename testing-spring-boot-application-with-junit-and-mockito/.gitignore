@@ -1,0 +1,25 @@
+### Gradle
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+.gradle/
+build/
+gradle.properties
+
+### macOS
+.DS_Store
+
+### IntelliJ
+.idea/
+out/
+generated/
+generated_tests/
+
+### direnv
+.envrc
+
+### Spring Boot
+application-local.properties
+application-local.yml
+
+### env
+env/mysql/data/

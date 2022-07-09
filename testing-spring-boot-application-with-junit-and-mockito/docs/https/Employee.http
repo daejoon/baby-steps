@@ -1,0 +1,9 @@
+### Send POST request with json body
+POST http://localhost:8080/api/employees
+Content-Type: application/json
+
+{
+  "firstName" : "daejoon",
+  "lastName" : "ko",
+  "email" : "kkode1911@gmail.com"
+}
