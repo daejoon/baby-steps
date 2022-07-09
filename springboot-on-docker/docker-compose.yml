@@ -1,0 +1,37 @@
+version: "3"
+services:
+  mysql-service:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_USER=springbootuser
+      - MYSQL_PASSWORD=springbootuser
+      - MYSQL_DATABASE=springbootondocker
+    volumes:
+      - "./env/conf.d:/etc/mysql/conf.d:ro"
+    networks:
+      - spring-boot-mysql-network
+
+  springboot-service:
+    build:
+      context: ./
+      args:
+        JAR_FILE: "build/libs/*.jar"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8080:8080"
+      - "5005:5005"
+    depends_on:
+      - mysql-service
+    links:
+      - mysql-service:mysql-host
+    networks:
+      - spring-boot-mysql-network
+
+networks:
+  spring-boot-mysql-network:
+    driver: bridge
