@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS hello (
+    id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR (255) NOT NULL,
+    age INT(4),
+    INDEX(name)
+) engine=InnoDB;
