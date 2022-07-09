@@ -1,0 +1,24 @@
+logging:
+  level:
+    org.springframework: info
+    org.hibernate.SQL: debug
+    com.ddoong2: debug
+
+spring:
+  jpa:
+    database: h2
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      use-new-id-generator-mappings: true
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+
+  datasource:
+    initialize: true
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
