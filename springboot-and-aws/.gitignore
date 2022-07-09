@@ -1,0 +1,10 @@
+# mac
+.DS_Store
+
+.gradle/
+.idea/
+build/
+out/
+!gradle-wrapper.jar
+
+application-oauth.properties
