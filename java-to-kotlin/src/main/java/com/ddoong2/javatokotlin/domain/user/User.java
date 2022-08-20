@@ -2,6 +2,8 @@ package com.ddoong2.javatokotlin.domain.user;
 
 import com.ddoong2.javatokotlin.domain.book.Book;
 import com.ddoong2.javatokotlin.domain.user.loanhistory.UserLoanHistory;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -53,10 +55,12 @@ public class User {
     targetHistory.doReturn();
   }
 
+  @NotNull
   public String getName() {
     return name;
   }
 
+  @Nullable
   public Integer getAge() {
     return age;
   }
