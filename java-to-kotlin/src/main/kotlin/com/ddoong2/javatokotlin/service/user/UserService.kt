@@ -2,8 +2,11 @@ package com.ddoong2.javatokotlin.service.user
 
 import com.ddoong2.javatokotlin.domain.user.User
 import com.ddoong2.javatokotlin.domain.user.UserRepository
+import com.ddoong2.javatokotlin.domain.user.loanhistory.UserLoanStatus
 import com.ddoong2.javatokotlin.dto.user.request.UserCreateRequest
 import com.ddoong2.javatokotlin.dto.user.request.UserUpdateRequest
+import com.ddoong2.javatokotlin.dto.user.response.BookHistoryResponse
+import com.ddoong2.javatokotlin.dto.user.response.UserLoanHistoryResponse
 import com.ddoong2.javatokotlin.dto.user.response.UserResponse
 import com.ddoong2.javatokotlin.util.fail
 import com.ddoong2.javatokotlin.util.findByIdOrThrow
@@ -38,6 +41,21 @@ class UserService(
     fun deleteUser(name: String) {
         val user = userRepository.findByName(name) ?: fail()
         userRepository.delete(user)
+    }
+
+    @Transactional(readOnly = true)
+    fun getUserLoanHistories(): List<UserLoanHistoryResponse> {
+        return userRepository.findAll().map { user ->
+            UserLoanHistoryResponse(
+                name = user.name,
+                books = user.userLoanHistories.map { history ->
+                    BookHistoryResponse(
+                        name = history.bookName,
+                        isReturn = history.status == UserLoanStatus.RETURNED
+                    )
+                }
+            )
+        }
     }
 
 

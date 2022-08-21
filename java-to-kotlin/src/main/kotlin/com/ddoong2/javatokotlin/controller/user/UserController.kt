@@ -2,6 +2,7 @@ package com.ddoong2.javatokotlin.controller.user
 
 import com.ddoong2.javatokotlin.dto.user.request.UserCreateRequest
 import com.ddoong2.javatokotlin.dto.user.request.UserUpdateRequest
+import com.ddoong2.javatokotlin.dto.user.response.UserLoanHistoryResponse
 import com.ddoong2.javatokotlin.dto.user.response.UserResponse
 import com.ddoong2.javatokotlin.service.user.UserService
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -35,5 +36,10 @@ class UserController(
     @DeleteMapping("/user")
     fun deleteUser(@RequestParam name: String) {
         userService.deleteUser(name)
+    }
+
+    @GetMapping("/user/loan")
+    fun getUserLoanHistories(): List<UserLoanHistoryResponse> {
+        return userService.getUserLoanHistories()
     }
 }
