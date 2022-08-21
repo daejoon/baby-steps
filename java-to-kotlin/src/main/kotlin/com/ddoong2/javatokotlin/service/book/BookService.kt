@@ -3,13 +3,13 @@ package com.ddoong2.javatokotlin.service.book
 import com.ddoong2.javatokotlin.domain.book.Book
 import com.ddoong2.javatokotlin.domain.book.BookRepository
 import com.ddoong2.javatokotlin.domain.user.UserRepository
-import com.ddoong2.javatokotlin.domain.user.loanhistory.UserLoanHistoryRepository
 import com.ddoong2.javatokotlin.domain.user.loanhistory.UserLoanStatus
 import com.ddoong2.javatokotlin.dto.book.request.BookLoanRequest
 import com.ddoong2.javatokotlin.dto.book.request.BookRequest
 import com.ddoong2.javatokotlin.dto.book.request.BookReturnRequest
 import com.ddoong2.javatokotlin.dto.book.response.BookStatResponse
 import com.ddoong2.javatokotlin.repository.book.BookQuerydslRepository
+import com.ddoong2.javatokotlin.repository.user.loanhistory.UserLoanHistoryQuerydslRepository
 import com.ddoong2.javatokotlin.util.fail
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -19,7 +19,7 @@ class BookService(
     private val bookRepository: BookRepository,
     private val bookQuerydslRepository: BookQuerydslRepository,
     private val userRepository: UserRepository,
-    private val userLoanHistoryRepository: UserLoanHistoryRepository,
+    private val userLoanHistoryQuerydslRepository: UserLoanHistoryQuerydslRepository,
 ) {
 
     @Transactional
@@ -32,7 +32,7 @@ class BookService(
     fun loanBook(request: BookLoanRequest) {
         val book = bookRepository.findByName(request.bookName) ?: fail()
 
-        if (userLoanHistoryRepository.findByBookNameAndStatus(request.bookName, UserLoanStatus.LOANED) != null) {
+        if (userLoanHistoryQuerydslRepository.find(request.bookName, UserLoanStatus.LOANED) != null) {
             throw IllegalArgumentException("진작 대출되어 있는 책 입니다")
         }
 
@@ -48,7 +48,7 @@ class BookService(
 
     @Transactional(readOnly = true)
     fun countLoanedBooK(): Int {
-        return userLoanHistoryRepository.countByStatus(UserLoanStatus.LOANED).toInt()
+        return userLoanHistoryQuerydslRepository.count(UserLoanStatus.LOANED).toInt()
     }
 
     @Transactional(readOnly = true)
