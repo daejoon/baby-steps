@@ -11,6 +11,7 @@ import com.ddoong2.javatokotlin.domain.user.loanhistory.UserLoanStatus
 import com.ddoong2.javatokotlin.dto.book.request.BookLoanRequest
 import com.ddoong2.javatokotlin.dto.book.request.BookRequest
 import com.ddoong2.javatokotlin.dto.book.request.BookReturnRequest
+import com.ddoong2.javatokotlin.dto.book.response.BookStatResponse
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.DisplayName
@@ -79,10 +80,7 @@ class BookServiceTest @Autowired constructor(
         // given
         bookRepository.save(Book.fixture("이상한 나라의 엘리스"))
         val savedUser = userRepository.save(
-            User(
-                "고대준",
-                null
-            )
+            User("고대준", null)
         )
         userLoanHistoryRepository.save(UserLoanHistory.fixture(savedUser, "이상한 나라의 엘리스"))
         val request = BookLoanRequest("고대준", "이상한 나라의 엘리스")
@@ -99,10 +97,7 @@ class BookServiceTest @Autowired constructor(
     fun returnBookTest() {
         // given
         val savedUser = userRepository.save(
-            User(
-                "고대준",
-                null
-            )
+            User("고대준", null)
         )
         userLoanHistoryRepository.save(UserLoanHistory.fixture(savedUser, "이상한 나라의 엘리스"))
         val request = BookReturnRequest("고대준", "이상한 나라의 엘리스")
@@ -114,6 +109,51 @@ class BookServiceTest @Autowired constructor(
         val results = userLoanHistoryRepository.findAll()
         assertThat(results).hasSize(1)
         assertThat(results[0].status).isEqualTo(UserLoanStatus.RETURNED)
+    }
+
+    @Test
+    @DisplayName("책 대여 권수를 정상 확인한다")
+    fun countLoanedBookTest() {
+        // given
+        val savedUser = userRepository.save(User("고대준", null))
+        userLoanHistoryRepository.saveAll(
+            listOf(
+                UserLoanHistory.fixture(savedUser, "A"),
+                UserLoanHistory.fixture(savedUser, "B", UserLoanStatus.RETURNED),
+                UserLoanHistory.fixture(savedUser, "c", UserLoanStatus.RETURNED),
+            )
+        )
+
+        // when
+        var result = bookService.countLoanedBooK()
+
+        // then
+        assertThat(result).isEqualTo(1)
+    }
+
+    @Test
+    @DisplayName("분야별 책 권수를 정상 확인한다")
+    fun getBookStatisticsTest() {
+        // given
+        bookRepository.saveAll(
+            listOf(
+                Book.fixture("A", BookType.COMPUTER),
+                Book.fixture("B", BookType.COMPUTER),
+                Book.fixture("C", BookType.SCIENCE),
+            )
+        )
+
+        // when
+        val results = bookService.getBookStatistics()
+
+        // then
+        assertThat(results).hasSize(2)
+        assertCount(results, BookType.COMPUTER, 2)
+        assertCount(results, BookType.SCIENCE, 1)
+    }
+
+    private fun assertCount(results: List<BookStatResponse>, type: BookType, count: Int) {
+        assertThat(results.first { result -> result.type == type}.count).isEqualTo(count)
     }
 
 }
