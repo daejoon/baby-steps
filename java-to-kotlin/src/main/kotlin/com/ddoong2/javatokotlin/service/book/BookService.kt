@@ -9,6 +9,7 @@ import com.ddoong2.javatokotlin.dto.book.request.BookLoanRequest
 import com.ddoong2.javatokotlin.dto.book.request.BookRequest
 import com.ddoong2.javatokotlin.dto.book.request.BookReturnRequest
 import com.ddoong2.javatokotlin.dto.book.response.BookStatResponse
+import com.ddoong2.javatokotlin.repository.book.BookQuerydslRepository
 import com.ddoong2.javatokotlin.util.fail
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class BookService(
     private val bookRepository: BookRepository,
+    private val bookQuerydslRepository: BookQuerydslRepository,
     private val userRepository: UserRepository,
     private val userLoanHistoryRepository: UserLoanHistoryRepository,
 ) {
@@ -51,7 +53,7 @@ class BookService(
 
     @Transactional(readOnly = true)
     fun getBookStatistics(): List<BookStatResponse> {
-        return bookRepository.getStats()
+        return bookQuerydslRepository.getStats()
     }
 
 }
