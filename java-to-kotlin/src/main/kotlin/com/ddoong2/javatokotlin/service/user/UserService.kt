@@ -5,6 +5,9 @@ import com.ddoong2.javatokotlin.domain.user.UserRepository
 import com.ddoong2.javatokotlin.dto.user.request.UserCreateRequest
 import com.ddoong2.javatokotlin.dto.user.request.UserUpdateRequest
 import com.ddoong2.javatokotlin.dto.user.response.UserResponse
+import com.ddoong2.javatokotlin.util.fail
+import com.ddoong2.javatokotlin.util.findByIdOrThrow
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -27,14 +30,14 @@ class UserService(
 
     @Transactional
     fun updateUserName(request: UserUpdateRequest) {
-        val user = userRepository.findById(request.id).orElseThrow(::IllegalArgumentException)
+        val user = userRepository.findByIdOrThrow(request.id)
 
         user.updateName(request.name)
     }
 
     @Transactional
     fun deleteUser(name: String) {
-        val user = userRepository.findByName(name).orElseThrow(::IllegalArgumentException)
+        val user = userRepository.findByName(name) ?: fail()
         userRepository.delete(user)
     }
 
