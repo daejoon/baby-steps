@@ -4,6 +4,6 @@ import com.ddoong2.javatokotlin.domain.book.BookType
 
 data class BookStatResponse(
     val type: BookType,
-    val count: Int,
+    val count: Long,
 ) {
 }
