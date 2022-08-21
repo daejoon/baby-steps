@@ -1,21 +1,6 @@
-package com.ddoong2.javatokotlin.dto.book.request;
+package com.ddoong2.javatokotlin.dto.book.request
 
-public class BookLoanRequest {
-
-  private String userName;
-  private String bookName;
-
-  public BookLoanRequest(final String userName, final String bookName) {
-    this.userName = userName;
-    this.bookName = bookName;
-  }
-
-  public String getUserName() {
-    return userName;
-  }
-
-  public String getBookName() {
-    return bookName;
-  }
-
-}
+data class BookLoanRequest(
+    val userName: String,
+    val bookName: String,
+)
