@@ -1,4 +1,4 @@
-package com.ddoong2.webapponspringandjpa;
+package com.ddoong2.webapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

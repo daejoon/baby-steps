@@ -6,3 +6,5 @@
 ## 참고 사항
 
 * 강의때 버전과 다르게 현재 최신버진인 [2.7.4](https://docs.spring.io/spring-boot/docs/2.7.4/reference/html/)로 진행한다.
+* 강의에는 `maven`을 사용하는데 여기서는 `gradle`을 사용한다.
+* `gradle`은 multi project 구조로 작성한다.
