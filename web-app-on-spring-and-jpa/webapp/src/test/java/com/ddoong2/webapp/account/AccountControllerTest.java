@@ -1,5 +1,6 @@
 package com.ddoong2.webapp.account;
 
+import com.ddoong2.webapp.domain.Account;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.isA;
@@ -73,12 +76,15 @@ class AccountControllerTest {
     void 회원가입_처리_입력값_정상() throws Exception {
 
         // Given - 사전 조건 설정
+        final String userId = "testuser";
+        final String email = "testuser@gmail.com";
+        final String password = "12345678";
 
         // When - 검증하려는 로직 실행
         final ResultActions actual = this.mockMvc.perform(post("/sign-up")
-                .param("nickname", "testuser")
-                .param("email", "testuser@gmail.com")
-                .param("password", "12345678")
+                .param("nickname", userId)
+                .param("email", email)
+                .param("password", password)
                 .with(csrf())
         );
 
@@ -86,7 +92,10 @@ class AccountControllerTest {
         actual.andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"));
 
-        assertThat(accountRepository.existsByEmail("testuser@gmail.com")).isTrue();
+        Optional<Account> findAccount = accountRepository.findByEmail(email);
+
+        assertThat(findAccount).isPresent();
+        assertThat(findAccount.get().getPassword()).isNotEqualTo(password);
         then(javaMailSender).should().send(isA(SimpleMailMessage.class));
     }
 }
