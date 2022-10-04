@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.BDDMockito.then;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -70,7 +72,8 @@ class AccountControllerTest {
                         .with(csrf())
                 )
                 .andExpect(status().isOk())
-                .andExpect(view().name("account/sign-up"));
+                .andExpect(view().name("account/sign-up"))
+                .andExpect(unauthenticated());
     }
 
     @Test
@@ -92,7 +95,8 @@ class AccountControllerTest {
 
         // Then - 출력 확인
         actual.andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/"));
+                .andExpect(redirectedUrl("/"))
+                .andExpect(authenticated().withUsername("testuser"));
 
         Optional<Account> findAccount = accountRepository.findByEmail(email);
 
@@ -103,7 +107,7 @@ class AccountControllerTest {
     }
 
     @Test
-    @DisplayName("인증 메일 확인 입력값 오류")
+    @DisplayName("인증 메일 확인 - 입력값 오류")
     void 인증_메일_확인_입력값_오류() throws Exception {
 
         // Given - 사전 조건 설정
@@ -114,11 +118,12 @@ class AccountControllerTest {
                         .param("email", "email@gmail.com"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("error"))
-                .andExpect(view().name("account/checked-email"));
+                .andExpect(view().name("account/checked-email"))
+                .andExpect(unauthenticated());
     }
 
     @Test
-    @DisplayName("인증 메일 확인 입력값 정상")
+    @DisplayName("인증 메일 확인 - 입력값 정상")
     void 인증_메일_확인_입력값_정상() throws Exception {
         final Account account = Account.builder()
                 .email("test@email.com")
@@ -138,6 +143,7 @@ class AccountControllerTest {
                 .andExpect(model().attributeDoesNotExist("error"))
                 .andExpect(model().attributeExists("nickname"))
                 .andExpect(model().attributeExists("numberOfUser"))
-                .andExpect(view().name("account/checked-email"));
+                .andExpect(view().name("account/checked-email"))
+                .andExpect(authenticated().withUsername("testuser"));
     }
 }
