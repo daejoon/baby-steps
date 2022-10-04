@@ -96,6 +96,7 @@ class AccountControllerTest {
 
         assertThat(findAccount).isPresent();
         assertThat(findAccount.get().getPassword()).isNotEqualTo(password);
+        assertThat(findAccount.get().getEmailCheckToken()).isNotNull();
         then(javaMailSender).should().send(isA(SimpleMailMessage.class));
     }
 }

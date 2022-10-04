@@ -10,7 +10,7 @@ import java.util.UUID;
  * 기본적으로 Getter 만 오픈한다.
  * 필요하면 그때 그때 기능 메소드 오픈
  */
-@Getter
+@Getter @Setter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
