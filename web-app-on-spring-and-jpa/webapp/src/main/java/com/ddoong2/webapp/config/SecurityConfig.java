@@ -28,7 +28,6 @@ public class SecurityConfig {
                 .mvcMatchers("/",
                         "/login",
                         "/sign-up",
-                        "/check-email",
                         "/check-email-token",
                         "/email-login",
                         "/check-email-login",
