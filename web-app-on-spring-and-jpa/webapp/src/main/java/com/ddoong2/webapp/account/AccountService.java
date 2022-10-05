@@ -16,8 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
+
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Service
 public class AccountService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
@@ -75,5 +77,12 @@ public class AccountService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("이메일이나 닉네임으로 사용자를 찾을수 없습니다."));
 
         return new UserAccount(account);
+    }
+
+    @Transactional
+    public void completeSignUp(final Account account) {
+
+        account.completeSignUp();
+        login(account);
     }
 }
