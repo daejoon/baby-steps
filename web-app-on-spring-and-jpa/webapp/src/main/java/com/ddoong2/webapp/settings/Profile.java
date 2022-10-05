@@ -2,8 +2,10 @@ package com.ddoong2.webapp.settings;
 
 import com.ddoong2.webapp.domain.Account;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class Profile {
 
     private String bio;

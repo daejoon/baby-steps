@@ -1,6 +1,7 @@
 package com.ddoong2.webapp.account;
 
 import com.ddoong2.webapp.domain.Account;
+import com.ddoong2.webapp.settings.Profile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -84,5 +85,15 @@ public class AccountService implements UserDetailsService {
 
         account.completeSignUp();
         login(account);
+    }
+
+    @Transactional
+    public void updateProfile(final Account account, final Profile profile) {
+
+        account.setUrl(profile.getUrl());
+        account.setOccupation(profile.getOccupation());
+        account.setLocation(profile.getLocation());
+        account.setBio(profile.getBio());
+        accountRepository.save(account);
     }
 }
