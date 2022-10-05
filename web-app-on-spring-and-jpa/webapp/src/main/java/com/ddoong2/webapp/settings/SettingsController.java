@@ -19,7 +19,6 @@ import javax.validation.Valid;
 public class SettingsController {
     public static final String SETTINGS_PROFILE_VEW_NAME = "settings/profile";
     public static final String SETTINGS_PROFILE_URL = "/settings/profile";
-
     private final AccountService accountService;
 
     @GetMapping(SETTINGS_PROFILE_URL)
