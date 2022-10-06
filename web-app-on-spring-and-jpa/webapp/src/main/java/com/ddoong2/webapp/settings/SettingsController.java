@@ -21,7 +21,7 @@ import javax.validation.Valid;
 public class SettingsController {
     public static final String SETTINGS_PROFILE_VEW_NAME = "settings/profile";
     public static final String SETTINGS_PROFILE_URL = "/settings/profile";
-    public static final String SETTINGS_PASSWORD_VEW_NAME = "settings/password";
+    public static final String SETTINGS_PASSWORD_VIEW_NAME = "settings/password";
     public static final String SETTINGS_PASSWORD_URL = "/settings/password";
     private final AccountService accountService;
 
@@ -63,7 +63,7 @@ public class SettingsController {
 
         model.addAttribute(account);
         model.addAttribute(new PasswordForm());
-        return SETTINGS_PASSWORD_VEW_NAME;
+        return SETTINGS_PASSWORD_VIEW_NAME;
     }
 
     @PostMapping(SETTINGS_PASSWORD_URL)
@@ -75,7 +75,7 @@ public class SettingsController {
 
         if (errors.hasErrors()) {
             model.addAttribute(account);
-            return SETTINGS_PASSWORD_VEW_NAME;
+            return SETTINGS_PASSWORD_VIEW_NAME;
         }
 
         accountService.updatePassword(account, passwordForm.getNewPassword());

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Optional;
@@ -32,6 +33,9 @@ class SettingsControllerTest {
 
     @Autowired
     AccountRepository accountRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @AfterEach
     void tearDown() {
@@ -98,6 +102,66 @@ class SettingsControllerTest {
         final Optional<Account> findAccount = accountRepository.findByNickname("testuser");
         assertThat(findAccount).isPresent();
         assertThat(findAccount.get().getBio()).isNull();
+    }
+
+    @Test
+    @WithAccount("testuser")
+    @DisplayName("패스워드 수정 폼")
+    void 패스워드_수정_폼() throws Exception {
+
+        // Given - 사전 조건 설정
+        // When - 검증하려는 로직 실행
+        // Then - 출력 확인
+        this.mockMvc.perform(get(SettingsController.SETTINGS_PASSWORD_URL))
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("account"))
+                .andExpect(model().attributeExists("passwordForm"))
+        ;
+    }
+
+    @Test
+    @WithAccount("testuser")
+    @DisplayName("패스워드 수정 - 입력값 정상")
+    void 패스워드_수정_입력값_정상() throws Exception {
+
+        // Given - 사전 조건 설정
+        // When - 검증하려는 로직 실행
+        // Then - 출력 확인
+        this.mockMvc.perform(post(SettingsController.SETTINGS_PASSWORD_URL)
+                        .param("newPassword", "12345678")
+                        .param("newPasswordConfirm", "12345678")
+                        .with(csrf())
+                )
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl(SettingsController.SETTINGS_PASSWORD_URL))
+                .andExpect(flash().attributeExists("message"))
+        ;
+
+        final Optional<Account> findAccount = accountRepository.findByNickname("testuser");
+        assertThat(findAccount).isPresent();
+        assertThat(passwordEncoder.matches("12345678", findAccount.get().getPassword())).isTrue();
+
+    }
+
+    @Test
+    @WithAccount("testuser")
+    @DisplayName("패스워드 수정 - 패스워드 불일치")
+    void 패스워드_수정_패스워드_불일치() throws Exception {
+
+        // Given - 사전 조건 설정
+        // When - 검증하려는 로직 실행
+        // Then - 출력 확인
+        this.mockMvc.perform(post(SettingsController.SETTINGS_PASSWORD_URL)
+                        .param("newPassword", "12345678")
+                        .param("newPasswordConfirm", "11111111")
+                        .with(csrf())
+                )
+                .andExpect(status().isOk())
+                .andExpect(view().name(SettingsController.SETTINGS_PASSWORD_VIEW_NAME))
+                .andExpect(model().hasErrors())
+                .andExpect(model().attributeExists("passwordForm"))
+                .andExpect(model().attributeExists("account"))
+        ;
     }
 
 }
