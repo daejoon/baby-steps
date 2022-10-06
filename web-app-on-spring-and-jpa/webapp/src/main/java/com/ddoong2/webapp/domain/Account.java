@@ -62,19 +62,19 @@ public class Account {
     private boolean studyCreatedByEmail;
 
     /** 알림설정 웹 */
-    private boolean studyCreatedByWeb;
+    private boolean studyCreatedByWeb = true;
 
     /** 가입결과 이메일 */
     private boolean studyEnrollmentResultByEmail;
 
     /** 가입결과 웹 */
-    private boolean studyEnrollmentResultByWeb;
+    private boolean studyEnrollmentResultByWeb = true;
 
     /** 변경사항 이메일로 받음 */
     private boolean studyUpdatedByEmail;
 
     /** 변경사항 웹으로 받음 */
-    private boolean studyUpdatedByWeb;
+    private boolean studyUpdatedByWeb = true;
 
     /** 토큰을 생성했을때 시간 */
     private LocalDateTime emailCheckTokenGeneratedAt;
