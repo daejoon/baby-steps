@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SpringBootUnitTestWithJunitApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(SpringBootUnitTestWithJunitApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SpringBootUnitTestWithJunitApplication.class, args);
+    }
 
 }
