@@ -1,11 +1,11 @@
-package com.ddoong2.springbootunittestwithjunit;
+package com.ddoong2.springbootunittest;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SpringBootUnitTestWithJunitApplicationTests {
+class SpringBootUnitTestApplicationTests {
 
     @Test
     @DisplayName("환경을 로드 한다")

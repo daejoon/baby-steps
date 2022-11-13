@@ -1,13 +1,13 @@
-package com.ddoong2.springbootunittestwithjunit;
+package com.ddoong2.springbootunittest;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SpringBootUnitTestWithJunitApplication {
+public class SpringBootUnitTestApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SpringBootUnitTestWithJunitApplication.class, args);
+        SpringApplication.run(SpringBootUnitTestApplication.class, args);
     }
 
 }
