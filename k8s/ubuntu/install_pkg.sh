@@ -29,5 +29,6 @@ systemctl restart containerd
 
 # kubernetes 설치
 apt-get update
-apt-get install -y kubelet=$1 kubectl=$1 kubeadm=$1
+#apt-get install -y kubelet=$1 kubectl=$1 kubeadm=$1
+apt-get install -y kubelet=$1 kubectl=$1
 systemctl enable --now kubelet

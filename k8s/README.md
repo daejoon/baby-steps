@@ -42,6 +42,11 @@ $ vagrant plugin update vagrant-parallels
 | vagrant reload  | 가상머신 재시동     |
 | vagrant destroy | 가상머신 제거      | 
 
+```shell
+$ vagrant ssh {machineName}
+```
+
+
 ## 참고
 
 * [Vagrant Box - Ubuntu-20.04](https://app.vagrantup.com/bento/boxes/ubuntu-20.04)

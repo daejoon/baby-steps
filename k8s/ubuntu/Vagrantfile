@@ -2,8 +2,8 @@
 # vi: set ft-ruby :
 
 Vagrant.configure("2") do |config|
+  KubeVer = "1.24.0"
   NodeCount = 3
-  KubeVer = "1.24.2-00"
 
   # master node
   config.vm.define "master" do |master|
@@ -12,12 +12,12 @@ Vagrant.configure("2") do |config|
     master.vm.provider "parallels" do |prl|
       prl.linked_clone = false
       prl.cpus = 2
-      prl.memory = 4096
+      prl.memory = 2048
     end
-    master.vm.hostname = "master-node"
-    master.vm.network "private_network", ip: "192.168.100.100"
-    master.vm.network "forwarded_port", guest: 22, host: 60100, auto_correct: true, id: "ssh"
-    master.vm.synced_folder "../data", "/vagrant", disabled: true
+    master.vm.hostname = "master.local"
+    master.vm.network "private_network", ip: "192.168.100.10"
+    master.vm.network "forwarded_port", guest: 22, host: 60010, auto_correct: true, id: "ssh"
+    master.vm.synced_folder "data", "/data", disabled: false
     master.vm.provision "shell", path: "scripts/config.sh", args: NodeCount
     master.vm.provision "shell", path: "scripts/install_pkg.sh", args: [KubeVer, "Main"]
     master.vm.provision "shell", path: "scripts/master_node.sh"
@@ -30,17 +30,17 @@ Vagrant.configure("2") do |config|
       worker.vm.box_version = "202112.19.0"
       worker.vm.provider "parallels" do |prl|
         prl.linked_clone = false
-        prl.cpus = 2
-        prl.memory = 4096
+        prl.cpus = 1
+        prl.memory = 2048
       end
-      worker.vm.hostname = "worker-node#{i}"
+      worker.vm.hostname = "worker#{i}.local"
       worker.vm.network "private_network", ip: "192.168.100.#{i + 100}"
       worker.vm.network "forwarded_port", guest: 22, host: "60#{i + 100}", auto_correct: true, id: "ssh"
-      worker.vm.synced_folder "../data", "/vagrant", disabled: true
+      worker.vm.synced_folder "data", "/data", disabled: true
       worker.vm.provision "shell", path: "scripts/config.sh", args: NodeCount
       worker.vm.provision "shell", path: "scripts/install_pkg.sh", args: KubeVer
       worker.vm.provision "shell", path: "scripts/worker_node.sh"
     end
   end
-   
+
 end
