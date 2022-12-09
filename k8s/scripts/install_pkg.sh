@@ -4,7 +4,7 @@
 echo "[INFO] install_pkg.sh, current user: $(whoami)"
 
 # install util packages
-rm -rf /var/lib/apt/lists/* -vf
+rm -rfv /var/lib/apt/lists/*
 apt-get update
 apt-get install git -y
 

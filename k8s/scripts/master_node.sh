@@ -22,7 +22,7 @@ curl https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/ca
 kubectl apply -f calico.yaml
 
 # install bash-completion for kubectl
-rm -rf /var/lib/apt/lists/* -vf
+rm -rfv /var/lib/apt/lists/*
 apt-get update
 apt-get install bash-completion -y
 
