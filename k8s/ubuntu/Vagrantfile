@@ -10,42 +10,44 @@ Vagrant.configure("2") do |config|
 
   # master node
   config.vm.define "master" do |cfg|
-    cfg.vm.box = "jeffnoxon/ubuntu-20.04-arm64"
+    cfg.vm.box = "bento/ubuntu-20.04-arm64"
     cfg.vm.provider "parallels" do |prl|
+      prl.name = "master-k8s-#{KubeVer[0..5]}"
       prl.cpus = 2
-      prl.memory = 2048
+      prl.memory = 4096
       prl.linked_clone = false
       prl.update_guest_tools = false
       prl.check_guest_tools = false
     end
-    cfg.vm.hostname = "master-k8s"
-    cfg.vm.network "private_network", ip: "192.168.100.10"
+    cfg.vm.hostname = "master-node"
+    cfg.vm.network "private_network", ip: "192.168.10.10"
     cfg.vm.network "forwarded_port", guest: 22, host: 60010, auto_correct: true, id: "ssh"
     cfg.vm.synced_folder "../data", "/vagrant", disabled: true
     cfg.vm.provision "shell", path: "config.sh", args: NodeCount
-    cfg.vm.provision "shell", path: "install_pkg.sh", args: [KubeVer, DockerVer, ContainerVer, "Main"]
-    # cfg.vm.provision "shell", path: "master_node.sh"
+    cfg.vm.provision "shell", path: "install_pkg.sh", args: [KubeVer, DockerVer, ContainerVer]
+    cfg.vm.provision "shell", path: "master_node.sh"
   end
 
-  # # worker nodes
-  # (1..NodeCount).each do |i|
-  #   config.vm.define "worker#{i}" do |cfg|
-  #     cfg.vm.box = "jeffnoxon/ubuntu-20.04-arm64"
-  #     cfg.vm.provider "parallels" do |prl|
-  #       prl.cpus = 1
-  #       prl.memory = 2048
-  #       prl.linked_clone = false
-  #       prl.update_guest_tools = false
-  #       prl.check_guest_tools = false
-  #     end
-  #     cfg.vm.hostname = "worker#{i}-k8s"
-  #     cfg.vm.network "private_network", ip: "192.168.100.#{i + 100}"
-  #     cfg.vm.network "forwarded_port", guest: 22, host: "60#{i + 100}", auto_correct: true, id: "ssh"
-  #     cfg.vm.synced_folder "../data", "/vagrant", disabled: true
-  #     cfg.vm.provision "shell", path: "config.sh", args: NodeCount
-  #     cfg.vm.provision "shell", path: "install_pkg.sh", args: KubeVer
-  #     cfg.vm.provision "shell", path: "worker_node.sh"
-  #   end
-  # end
+  # worker nodes
+  (1..NodeCount).each do |i|
+    config.vm.define "worker#{i}" do |cfg|
+      cfg.vm.box = "bento/ubuntu-20.04-arm64"
+      cfg.vm.provider "parallels" do |prl|
+        prl.name = "worker#{i}-k8s-#{KubeVer[0..5]}"
+        prl.cpus = 2
+        prl.memory = 2048
+        prl.linked_clone = false
+        prl.update_guest_tools = false
+        prl.check_guest_tools = false
+      end
+      cfg.vm.hostname = "worker#{i}-node"
+      cfg.vm.network "private_network", ip: "192.168.10.10#{i}"
+      cfg.vm.network "forwarded_port", guest: 22, host: "6010#{i}", auto_correct: true, id: "ssh"
+      cfg.vm.synced_folder "../data", "/vagrant", disabled: true
+      cfg.vm.provision "shell", path: "config.sh", args: NodeCount
+      cfg.vm.provision "shell", path: "install_pkg.sh", args: [KubeVer, DockerVer, ContainerVer]
+      cfg.vm.provision "shell", path: "worker_node.sh"
+    end
+  end
 
 end

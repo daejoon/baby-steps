@@ -23,7 +23,7 @@
 $ vagrant plugin install vagrant-parallels
 ```
 
-### Plugin 업그레이드 
+### Plugin 업그레이드
 
 ```
 $ vagrant plugin update vagrant-parallels
@@ -46,6 +46,19 @@ $ vagrant plugin update vagrant-parallels
 $ vagrant ssh {machineName}
 ```
 
+## apt 명령어
+
+| 명령어                  | 설명           |
+|:---------------------|:-------------|
+| apt-get update       | 패키지 인덱스 업데이트 |
+| apt-get upgrade      | 패키지 업그레이드    |
+| apt-get install      | 패키지 설치       |
+| apt-get remove       | 패키지 제거       |
+| apt list             | 패키지 리스트      |
+| apt list --installed | 설치된 패키지 리스트  |
+| apt-cache show       | 패키지 정보       |
+| apt-cache search     | 패키지 검색       |
+| apt-cache policy     | 패키지 정책       | 
 
 ## 참고
 
