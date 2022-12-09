@@ -6,7 +6,7 @@ echo "[INFO] install.sh, changed user: $(whoami)"
 
 # docker 설치
 apt-get update
-apt-get install -y docker-ce docker-ce-cli containerd.io
+apt-get install docker-ce=$2 docker-ce-cli=$2 containerd.io=$3 -y
 systemctl enable --now docker
 
 # mkdir /etc/docker
@@ -26,9 +26,9 @@ systemctl enable --now docker
 # preflight check error 보완
 sed -i 's/"cri"//' /etc/containerd/config.toml
 systemctl restart containerd
+systemctl enable --now containerd
 
 # kubernetes 설치
 apt-get update
-#apt-get install -y kubelet=$1 kubectl=$1 kubeadm=$1
-apt-get install -y kubelet=$1 kubectl=$1
+apt-get install kubelet=$1 kubectl=$1 kubeadm=$1 -y
 systemctl enable --now kubelet

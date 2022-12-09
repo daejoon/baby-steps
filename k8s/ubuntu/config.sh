@@ -22,12 +22,12 @@ rm -rf /etc/apt/keyrings/docker-archive-keyring.gpg
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker-archive-keyring.gpg
 echo \
   "deb [signed-by=/etc/apt/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 
 # 쿠버네티스 repo 추가
 rm -rf /etc/apt/keyrings/kubernetes-archive-keyring.gpg
 curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" |\
+echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" |
   sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 # br_netfilter 모듈 로드
@@ -44,8 +44,8 @@ EOF
 
 # Host 등록
 sed -i -r '/^192\.168\.100\.(.+)node[0-9]?$/d' /etc/hosts
-echo "192.168.100.10 master" >> /etc/hosts
-for (( i=0 ; i<$1 ; i++ )); do echo "192.168.100.10$i worker$i" >> /etc/hosts; done
+echo "192.168.100.10 master-k8s" >>/etc/hosts
+for ((i = 0; i < $1; i++)); do echo "192.168.100.10$i worker$i-k8s" >>/etc/hosts; done
 
 # config DNS
 # cat <<EOF > /etc/resolv.conf
