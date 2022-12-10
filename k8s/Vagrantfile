@@ -4,7 +4,7 @@
 KubeVer = "1.24.8-00"
 DockerVer = "5:20.10.21~3-0~ubuntu-focal"
 ContainerVer = "1.6.12-1"
-NodeCount = 3
+NodeCount = 4
 
 Vagrant.configure("2") do |config|
 
@@ -34,7 +34,7 @@ Vagrant.configure("2") do |config|
       cfg.vm.box = "bento/ubuntu-20.04-arm64"
       cfg.vm.provider "parallels" do |prl|
         prl.name = "worker#{i}-k8s-#{KubeVer[0..5]}"
-        prl.cpus = 2
+        prl.cpus = 1
         prl.memory = 2048
         prl.linked_clone = false
         prl.update_guest_tools = false
