@@ -4,7 +4,7 @@
 KubeVer = "1.24.8-00"
 DockerVer = "5:20.10.21~3-0~ubuntu-focal"
 ContainerVer = "1.6.12-1"
-NodeCount = 4
+NodeCount = 3
 
 Vagrant.configure("2") do |config|
 

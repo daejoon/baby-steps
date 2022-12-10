@@ -31,16 +31,18 @@ $ vagrant plugin update vagrant-parallels
 
 ## Vagrant 명령어
 
-| 명령어             | 설명           |
-|:----------------|:-------------|
-| vagrant up      | 가상머신 기동      |
-| vagrant status  | 가상머신 상태 확인   |
-| vagrant ssh     | 가상머신에 접속     |
-| vagrant halt    | 가상머신 정지      |
-| vagrant suspend | 가상머신 휴면      |
-| vagrant resume  | 가상머신 휴면에서 복원 |
-| vagrant reload  | 가상머신 재시동     |
-| vagrant destroy | 가상머신 제거      | 
+| 명령어             | 설명                                          |
+|:----------------|:--------------------------------------------|
+| vagrant up      | 가상머신 기동                                     |
+| vagrant status  | 가상머신 상태 확인                                  |
+| vagrant ssh     | 가상머신에 접속                                    |
+| vagrant halt    | 가상머신 정지                                     |
+| vagrant suspend | 가상머신 휴면                                     |
+| vagrant resume  | 가상머신 휴면에서 복원                                |
+| vagrant reload  | 가상머신 재시동 (보통 Vagrantfile을 수정하고 다시 적용하는데 사용) |
+| vagrant destroy | 가상머신 제거                                     | 
+
+* Multi VM에서 SSH로 접속
 
 ```shell
 $ vagrant ssh {machineName}
