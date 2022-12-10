@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
       prl.update_guest_tools = false
       prl.check_guest_tools = false
     end
-    cfg.vm.hostname = "master-node"
+    cfg.vm.hostname = "master"
     cfg.vm.network "private_network", ip: "192.168.10.10"
     cfg.vm.network "forwarded_port", guest: 22, host: 60010, auto_correct: true, id: "ssh"
     cfg.vm.synced_folder "data", "/data", disabled: true
@@ -40,7 +40,7 @@ Vagrant.configure("2") do |config|
         prl.update_guest_tools = false
         prl.check_guest_tools = false
       end
-      cfg.vm.hostname = "worker#{i}-node"
+      cfg.vm.hostname = "worker#{i}"
       cfg.vm.network "private_network", ip: "192.168.10.10#{i}"
       cfg.vm.network "forwarded_port", guest: 22, host: "6010#{i}", auto_correct: true, id: "ssh"
       cfg.vm.synced_folder "data", "/data", disabled: true
