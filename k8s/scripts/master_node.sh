@@ -18,23 +18,17 @@ chown $(id -u):$(id -g) $HOME/.kube/config
 curl https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/calico.yaml -O
 
 # config for kubernetes's network
-#kubectl apply -f https://$raw_git/172.16_net_calico_v1.yaml
 kubectl apply -f calico.yaml
 
 # install bash-completion for kubectl
 rm -rfv /var/lib/apt/lists/*
 apt-get update
-apt-get install bash-completion -y
+apt-get install -y bash-completion
 
-# kubectl completion on bash-completion dir
-kubectl completion bash >/etc/bash_completion.d/kubectl
+# kubernetes bash completion 시스템 전체에 적용
+kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl > /dev/null
 
 # alias kubectl to k
 echo 'alias k=kubectl' >>~/.bashrc
-echo "alias ka='kubectl apply -f'" >>~/.bashrc
-echo "alias kd='kubectl delete -f'" >>~/.bashrc
-echo 'complete -F __start_kubectl k' >>~/.bashrc
+echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
 
-## Dashboard 설치
-#kubectl apply -f https://kubetm.github.io/yamls/k8s-install/dashboard-2.3.0.yaml
-#nohup kubectl proxy --port=8001 --address=192.168.100.10 --accept-hosts='^*$' >/dev/null 2>&1 &

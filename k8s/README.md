@@ -60,6 +60,8 @@ $ vagrant ssh {machineName}
 | apt-cache search     | 패키지 검색       |
 | apt-cache policy     | 패키지 정책       | 
 
+* [apt 명령어](https://blog.outsider.ne.kr/346)
+
 ## 참고
 
 * [Vagrant Box - Ubuntu-20.04](https://app.vagrantup.com/bento/boxes/ubuntu-20.04)

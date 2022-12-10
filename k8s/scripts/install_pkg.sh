@@ -6,29 +6,14 @@ echo "[INFO] install_pkg.sh, current user: $(whoami)"
 # install util packages
 rm -rfv /var/lib/apt/lists/*
 apt-get update
-apt-get install git -y
+apt-get install -y vim
+apt-get install -y git
 
-# install docker & k8s runtime(containerd)
-apt-get install docker-ce=$2 docker-ce-cli=$2 containerd.io=$3 -y
+# docker, containerd 설치
+apt-get install -y docker-ce=$2 docker-ce-cli=$2 containerd.io=$3
 
-# install kubernetes
-# both kubelet and kubectl will install by dependency
-# but aim to latest version. so fixed version by manually
-apt-get install kubelet=$1 kubectl=$1 kubeadm=$1 -y
-
-# mkdir /etc/docker
-# cat <<EOF > /etc/docker/daemon.json
-# {
-# "exec-opts": ["native.cgroupdriver=systemd"],
-# "log-driver": "json-file",
-# "log-opts": {
-# "max-size": "100m"
-# },
-# "storage-driver": "overlay2"
-# }
-# EOF
-# systemctl daemon-reload
-# systemctl restart docker
+# 쿠버네티스 설치
+apt-get install -y kubelet=$1 kubectl=$1 kubeadm=$1
 
 # containerd configure to default
 containerd config default >/etc/containerd/config.toml
