@@ -12,7 +12,7 @@ echo 'alias vi=vim' >>/etc/profile
 
 # swap 비활성화
 swapoff -a
-sed -i -r 's/(.+ swap .+)/#\1/' /etc/fstab
+sed -i '/swap/s/^/# /' /etc/fstab
 
 # docker, kubernetes 레파지토리 다운로드를 위한 유틸리티 패키지 설치
 rm -rfv /var/lib/apt/lists/*
