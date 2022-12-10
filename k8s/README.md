@@ -1,6 +1,6 @@
 # Kubernetes 구축하기
 
-인프런 강좌 두곳을 보면서 공부하는곳 둘다 Centos7에 Virtual Box 에서 진행하는데 M1 이어서 Ubuntu와 Parallels로 구성
+인프런 강좌 두곳을 보면서 공부하는데 둘다 Centos7에 Virtual Box 에서 진행하는데 M1 이어서 Ubuntu와 Parallels로 구성
 
 ## 강좌
 
@@ -61,6 +61,10 @@ $ vagrant ssh {machineName}
 | apt-cache policy     | 패키지 정책       | 
 
 * [apt 명령어](https://blog.outsider.ne.kr/346)
+
+## Troubleshooting
+
+* 처음 신규 설치가 아닌 `vagrant destroy -f`로 삭제 후 `vagrant up`으로 다시 설치시 오류가 발생한다면 `.Vagrant`폴더를 삭제하고 진행해 보자
 
 ## 참고
 
