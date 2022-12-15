@@ -8,6 +8,13 @@ apt-get update
 apt-get install -y vim
 apt-get install -y git
 
+# install NFS
+if [ $4 = 'M' ]; then
+  apt-get install nfs-kernel-server nfs-common -y
+elif [ $4 = 'W' ]; then
+  apt-get install nfs-common -y
+fi
+
 # docker, containerd 설치
 apt-get install -y docker-ce=$2 docker-ce-cli=$2 containerd.io=$3
 
