@@ -17,21 +17,25 @@ sed -i '/swap/s/^/# /' /etc/fstab
 # docker, kubernetes 레파지토리 다운로드를 위한 유틸리티 패키지 설치
 rm -rfv /var/lib/apt/lists/*
 apt-get update
-apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
+apt-get install -y \
+  apt-transport-https \
+  ca-certificates \
+  curl \
+  gnupg \
+  lsb-release
 
 # docker repo 추가
 mkdir -p /etc/apt/keyrings
-rm -rfv /etc/apt/keyrings/docker-archive-keyring.gpg
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker-archive-keyring.gpg
 echo \
-  "deb [signed-by=/etc/apt/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 
 # 쿠버네티스 repo 추가
-rm -rfv /etc/apt/keyrings/kubernetes-archive-keyring.gpg
-curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" |
-  sudo tee /etc/apt/sources.list.d/kubernetes.list
+curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg \
+  https://packages.cloud.google.com/apt/doc/apt-key.gpg
+echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] \
+      https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 # 방화벽 해제
 systemctl stop ufw

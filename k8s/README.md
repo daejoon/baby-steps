@@ -68,6 +68,8 @@ $ vagrant ssh {machineName}
 
 * 처음 신규 설치가 아닌 `vagrant destroy -f`로 삭제 후 `vagrant up`으로 다시 설치시 오류가 발생한다면 `.Vagrant`폴더를 삭제하고 진행해 보자
 
+* `vagrant up --no-parallel`로 실행
+
 ## 참고
 
 * [Vagrant Box - Ubuntu-20.04](https://app.vagrantup.com/bento/boxes/ubuntu-20.04)

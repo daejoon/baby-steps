@@ -14,8 +14,12 @@ cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
 
 # config for kubernetes's network
-kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/calico.yaml
+curl https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/calico.yaml -O
 
+# config for kubernetes's network
+kubectl apply -f calico.yaml
+
+## metallb install
 # enable strict ARP mode
 kubectl get configmap kube-proxy -n kube-system -o yaml |
   sed -e "s/strictARP: false/strictARP: true/" |
@@ -24,12 +28,11 @@ kubectl get configmap kube-proxy -n kube-system -o yaml |
   sed -e "s/strictARP: false/strictARP: true/" |
   kubectl apply -f - -n kube-system
 
-# 생성
 # metallb-system 네임스페이스 생성, 파드(컨트롤러, 스피커) 생성, RBAC(서비스/파드/컨피그맵 조회 등등 권한들) 생성
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/metallb.yaml
 
-# create config
+# create config for metallb
 cat <<EOF | kubectl create -f -
 apiVersion: v1
 kind: ConfigMap
@@ -45,8 +48,11 @@ data:
       - 192.168.10.21-192.168.10.99
 EOF
 
+# create secret for metallb
+kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)" -o yaml --dry-run=client > metallb-secret.yaml
+kubectl apply -f metallb-secret.yaml
+
 # install bash-completion for kubectl
-rm -rfv /var/lib/apt/lists/*
 apt-get update
 apt-get install -y bash-completion
 
