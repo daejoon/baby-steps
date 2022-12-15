@@ -13,13 +13,14 @@ mkdir -p $HOME/.kube
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
 
+### calico
 # config for kubernetes's network
 curl https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/calico.yaml -O
 
 # config for kubernetes's network
 kubectl apply -f calico.yaml
 
-## metallb install
+### metallb
 # enable strict ARP mode
 kubectl get configmap kube-proxy -n kube-system -o yaml |
   sed -e "s/strictARP: false/strictARP: true/" |
@@ -51,6 +52,9 @@ EOF
 # create secret for metallb
 kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)" -o yaml --dry-run=client > metallb-secret.yaml
 kubectl apply -f metallb-secret.yaml
+
+#### ingress-nginx
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/baremetal/deploy.yaml
 
 # install bash-completion for kubectl
 apt-get update
