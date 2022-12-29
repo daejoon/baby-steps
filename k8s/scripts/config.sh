@@ -15,7 +15,6 @@ swapoff -a
 sed -i '/swap/s/^/# /' /etc/fstab
 
 # docker, kubernetes 레파지토리 다운로드를 위한 유틸리티 패키지 설치
-rm -rfv /var/lib/apt/lists/*
 apt-get update
 apt-get install -y \
   apt-transport-https \
@@ -32,10 +31,10 @@ echo \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 
 # 쿠버네티스 repo 추가
-curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg \
+curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg \
   https://packages.cloud.google.com/apt/doc/apt-key.gpg
-echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] \
-      https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" \
+  | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 # 방화벽 해제
 systemctl stop ufw
