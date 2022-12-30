@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-KubeVer = "1.24.8-00"
+KubeVer = "1.24.9-00"
 DockerVer = "5:20.10.21~3-0~ubuntu-focal"
 ContainerVer = "1.6.12-1"
 NodeCount = 3
