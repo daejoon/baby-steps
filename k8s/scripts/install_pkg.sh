@@ -16,9 +16,11 @@ elif [ $4 = 'W' ]; then
 fi
 
 # docker, containerd 설치
+apt-get update
 apt-get install -y docker-ce=$2 docker-ce-cli=$2 containerd.io=$3
 
 # 쿠버네티스 설치
+apt-get update
 apt-get install -y kubelet=$1 kubectl=$1 kubeadm=$1
 
 # containerd configure to default
