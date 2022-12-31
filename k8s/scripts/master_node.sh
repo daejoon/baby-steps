@@ -46,7 +46,7 @@ data:
     - name: metallb-ip-range
       protocol: layer2
       addresses:
-      - 192.168.10.11-192.168.10.13
+      - 192.168.10.11-192.168.10.19
 EOF
 
 # create secret for metallb
