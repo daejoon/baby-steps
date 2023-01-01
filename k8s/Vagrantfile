@@ -1,9 +1,9 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-KubeVer = "1.24.9-00"
+KubeVer = "1.25.5-00"
 DockerVer = "5:20.10.21~3-0~ubuntu-focal"
-ContainerVer = "1.6.12-1"
+ContainerVer = "1.6.10-1"
 NodeCount = 3
 
 Vagrant.configure("2") do |config|
