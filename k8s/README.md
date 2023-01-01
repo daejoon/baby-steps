@@ -48,6 +48,13 @@ $ vagrant plugin update vagrant-parallels
 $ vagrant ssh {machineName}
 ```
 
+## 심볼릭 링크
+
+```shell
+$ ln -s /data/_Lecture_k8s_learning.kit _Lecture_k8s_learning.kit
+$ ln -s /data/kube_follow kube_follow
+```
+
 ## apt 명령어
 
 | 명령어                  | 설명             |

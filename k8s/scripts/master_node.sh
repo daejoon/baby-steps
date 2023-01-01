@@ -13,6 +13,7 @@ mkdir -p $HOME/.kube
 cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
 
+
 ### calico
 # config for kubernetes's network
 curl https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/calico.yaml -O
@@ -20,18 +21,22 @@ curl https://raw.githubusercontent.com/projectcalico/calico/v3.24.5/manifests/ca
 # config for kubernetes's network
 kubectl apply -f calico.yaml
 
+
 ### metallb
-# enable strict ARP mode
-kubectl get configmap kube-proxy -n kube-system -o yaml |
-  sed -e "s/strictARP: false/strictARP: true/" |
-  kubectl diff -f - -n kube-system
-kubectl get configmap kube-proxy -n kube-system -o yaml |
-  sed -e "s/strictARP: false/strictARP: true/" |
-  kubectl apply -f - -n kube-system
+# see what changes would be made, returns nonzero returncode if different
+kubectl get configmap kube-proxy -n kube-system -o yaml | \
+sed -e "s/strictARP: false/strictARP: true/" | \
+kubectl diff -f - -n kube-system
+
+# actually apply the changes, returns nonzero returncode on errors only
+kubectl get configmap kube-proxy -n kube-system -o yaml | \
+sed -e "s/strictARP: false/strictARP: true/" | \
+kubectl apply -f - -n kube-system
 
 # metallb-system 네임스페이스 생성, 파드(컨트롤러, 스피커) 생성, RBAC(서비스/파드/컨피그맵 조회 등등 권한들) 생성
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/namespace.yaml
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.12.1/manifests/metallb.yaml
+
 
 # create config for metallb
 cat <<EOF | kubectl create -f -
@@ -52,6 +57,7 @@ EOF
 # create secret for metallb
 kubectl create secret generic -n metallb-system memberlist --from-literal=secretkey="$(openssl rand -base64 128)" -o yaml --dry-run=client > metallb-secret.yaml
 kubectl apply -f metallb-secret.yaml
+
 
 #### ingress-nginx
 #kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/baremetal/deploy.yaml
