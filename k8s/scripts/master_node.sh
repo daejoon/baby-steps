@@ -72,5 +72,6 @@ kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl >/dev/null
 
 # alias kubectl to k
 echo 'alias k=kubectl' >>~/.bashrc
+echo "alias kch='kubectl config set-context $(kubectl config current-context) --namespace '" >>~/.bashrc
 echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
 
