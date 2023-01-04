@@ -1,5 +1,7 @@
 .idea/
 .vagrant/
+data/
 
 .DS_Store
 Vagrantfile_*
+**/node_modules/

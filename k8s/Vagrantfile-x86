@@ -10,19 +10,16 @@ Vagrant.configure("2") do |config|
 
   # master node
   config.vm.define "master" do |cfg|
-    cfg.vm.box = "bento/ubuntu-20.04-arm64"
-    cfg.vm.provider "parallels" do |prl|
-      prl.name = "master-k8s-#{KubeVer[0..5]}"
-      prl.cpus = 2
-      prl.memory = 4096
-      prl.linked_clone = true
-      prl.update_guest_tools = false
-      prl.check_guest_tools = false
+    cfg.vm.box = "bento/ubuntu-20.04"
+    cfg.vm.provider "virtualbox" do |v|
+      v.name = "master-k8s-#{KubeVer[0..5]}"
+      v.cpus = 2
+      v.memory = 4096
     end
     cfg.vm.hostname = "master"
     cfg.vm.network "private_network", ip: "192.168.10.10"
     cfg.vm.network "forwarded_port", guest: 22, host: 60010, auto_correct: true, id: "ssh"
-    cfg.vm.synced_folder "./data", "/data", disabled: false
+    cfg.vm.synced_folder "data", "/data", disabled: true
     cfg.vm.provision "shell", path: "scripts/config.sh", args: NodeCount
     cfg.vm.provision "shell", path: "scripts/install_pkg.sh", args: [KubeVer, DockerVer, ContainerVer, "M"]
     cfg.vm.provision "shell", path: "scripts/master_node.sh"
@@ -31,19 +28,16 @@ Vagrant.configure("2") do |config|
   # worker nodes
   (1..NodeCount).each do |i|
     config.vm.define "worker#{i}" do |cfg|
-      cfg.vm.box = "bento/ubuntu-20.04-arm64"
-      cfg.vm.provider "parallels" do |prl|
-        prl.name = "worker#{i}-k8s-#{KubeVer[0..5]}"
-        prl.cpus = 2
-        prl.memory = 2048
-        prl.linked_clone = true
-        prl.update_guest_tools = false
-        prl.check_guest_tools = false
+      cfg.vm.box = "bento/ubuntu-20.04"
+      cfg.vm.provider "virtualbox" do |v|
+        v.name = "worker#{i}-k8s-#{KubeVer[0..5]}"
+        v.cpus = 1
+        v.memory = 2048
       end
       cfg.vm.hostname = "worker#{i}"
       cfg.vm.network "private_network", ip: "192.168.10.10#{i}"
       cfg.vm.network "forwarded_port", guest: 22, host: "6010#{i}", auto_correct: true, id: "ssh"
-      cfg.vm.synced_folder "./data", "/data", disabled: false
+      cfg.vm.synced_folder "data", "/data", disabled: true
       cfg.vm.provision "shell", path: "scripts/config.sh", args: NodeCount
       cfg.vm.provision "shell", path: "scripts/install_pkg.sh", args: [KubeVer, DockerVer, ContainerVer, "W"]
       cfg.vm.provision "shell", path: "scripts/worker_node.sh"
