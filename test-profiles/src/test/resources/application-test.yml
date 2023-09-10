@@ -1,5 +1,1 @@
-spring:
-  config:
-    import: classpath:import2.yml, classpath:import3.yml
-
 msg: test

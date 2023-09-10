@@ -6,6 +6,7 @@
 
 * 결국 마지막에 읽는게 우선 순위가 높다. 8번의 경우
 * msg 라는 key가 존재한다면 순서는 아래와 같다.
+* 한번 로딩한 파일은 다른 곳에서 다시 로딩 (`spring.config.import`) 하여도 순서에 영향을 주기 않는다.
 
 1. application.yml `msg 값`
 2. application.yml 안의 spring.config.import 첫번째 `msg 값`
