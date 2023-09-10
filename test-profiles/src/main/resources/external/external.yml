@@ -1,0 +1,5 @@
+### config
+spring.config.import: optional:classpath:external/external-${spring.profiles.active}.yml
+
+msg: external default
+external-default-only: external default only
