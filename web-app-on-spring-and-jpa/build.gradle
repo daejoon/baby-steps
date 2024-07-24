@@ -1,0 +1,50 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.4' apply false
+    id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+subprojects {
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java'
+
+    group = 'com.ddoong2'
+    version = '0.0.1-SNAPSHOT'
+    sourceCompatibility = '11'
+
+    jar {
+        enabled = false
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    dependencies {
+        implementation 'org.projectlombok:lombok'
+        runtimeOnly 'com.h2database:h2'
+        annotationProcessor 'org.projectlombok:lombok'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        // @ConfigurationProperties 를 사용하기 위한 의존성
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    }
+
+    //https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html#configuration-metadata.annotation-processor.configuring
+    tasks.named('compileJava') {
+        inputs.files(tasks.named('processResources'))
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+
+}
